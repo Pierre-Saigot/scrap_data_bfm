@@ -1,0 +1,48 @@
+{% extends 'Layouts/master.twig' %}
+
+{% block title %}	
+<h1>{{ news }}</h1>
+<br>
+{% endblock %}
+
+{% block body %}
+
+<div class="cards">
+	<div id="new" class="card" style="margin-bottom: 5%;">
+	  <div class="card-block">
+	    <h4 id="title" class="card-title">Card title</h4>
+	    <h6 id="hour" class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+	    <a  id="link" target="_blank" href="#" class="card-link">Voir la news</a>
+	  </div>	  
+	</div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function($){
+
+let $list_card = $('.cards'),
+		$card 	= $list_card.children('#new').detach();
+	$.get( 
+        "http://cici.local/test.php" 
+	).done(function( e ) {
+		for (var i = 0; i < e.response.titles.length; i++) {
+			
+			let div 		= $card.clone();
+				div.find('#title').text(e.response.titles[i]);
+				div.find('#hour').text(e.response.hours[i]);
+				div.find('#link').text(e.response.hrefs[i]);
+				div.find('#link').attr("href", e.response.hrefs[i]);
+
+				/*Ajout de la card unifiée dans son espace dédié*/
+				$list_card.append(div);
+		}
+	});
+	
+})(jQuery);
+
+</script>
+{% endblock %}
+
+                     
